@@ -10,7 +10,7 @@ export type Track = {
 export const album = {
   title: 'After the Silence',
   artist: 'Thom Arden',
-  coverImage: '/images/album-placeholder.svg',
+  coverImage: '/images/after-the-silence-cover.jpg',
   releaseNote: 'Debut album',
   intro:
     'A cinematic collection of songs about loss, gravity, courage, memory and the quiet light that returns after the darkest hours.',
