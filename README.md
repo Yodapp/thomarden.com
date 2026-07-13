@@ -1,6 +1,6 @@
 # Thom Arden artist site
 
-First version of the Thom Arden artist website. The site is built as a static Astro project for GitHub + Cloudflare Pages.
+First version of the Thom Arden artist website. The site is built as a static Astro project for GitHub + Cloudflare Workers with static assets.
 
 ## Project goal
 
@@ -64,15 +64,21 @@ Update the placeholders in `src/pages/videos.astro` once YouTube links are avail
 
 Add the Cloudflare Web Analytics script to `src/layouts/BaseLayout.astro` when the site token is available. No analytics script is included yet.
 
-## Cloudflare Pages
+## Cloudflare Workers build settings
 
 Recommended settings:
 
 - Build command: `npm run build`
-- Build output directory: `dist`
+- Deploy command: `npm run deploy`
+- Version command: `npm run upload-version`
+- Root directory / path: `/`
 - Node version: current LTS
 
-The project is static and does not need server-side runtime for the first release.
+The Worker/static-assets configuration lives in `wrangler.jsonc`.
+
+Important: this uses the newer Cloudflare Workers flow where static sites are deployed as Worker assets. Do not use `npx wrangler pages deploy dist` here.
+
+The Worker name in `wrangler.jsonc` is `thomardencom`, matching the Worker name in Cloudflare.
 
 ## Dependency note
 

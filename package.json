@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "deploy": "wrangler deploy",
+    "upload-version": "wrangler versions upload",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check"
   },
@@ -13,5 +15,8 @@
     "@astrojs/check": "^0.9.9",
     "astro": "^5.18.2",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "wrangler": "^4.110.0"
   }
 }
