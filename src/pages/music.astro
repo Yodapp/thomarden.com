@@ -17,7 +17,7 @@ import { album } from '@/data/album';
     <div class="container album-grid">
       <div>
         <div class="album-cover">
-          <img src={album.coverImage} alt={`${album.title} album cover placeholder`} />
+          <img src={album.coverImage} alt={`${album.title} album cover`} />
         </div>
         <div class="button-row">
           <a class="button button-secondary" href="#">Spotify soon</a>
@@ -29,7 +29,7 @@ import { album } from '@/data/album';
       <div>
         <p class="eyebrow">{album.releaseNote}</p>
         <h2 class="section-title">{album.title}</h2>
-        <p class="lead">{album.story}</p>
+        <p class="lead">Each song is a chapter — about finding beauty in what is broken, discovering that home can be a feeling, and choosing to begin again.</p>
         <p class="muted">{album.credits}</p>
 
         <ol class="track-list">
@@ -54,6 +54,18 @@ import { album } from '@/data/album';
   </section>
 
   <section class="section">
+    <div class="container section-header">
+      <div>
+        <p class="eyebrow">The Story Behind After the Silence</p>
+        <h2 class="section-title">Ten songs. One story.</h2>
+      </div>
+      <p class="lead">
+        From loss and uncertainty to hope, courage and new beginnings, <em>After the Silence</em> follows the quiet moments that ask us to take the next step.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container">
       <div class="section-header">
         <div>
@@ -61,7 +73,7 @@ import { album } from '@/data/album';
           <h2 class="section-title">The words behind the songs.</h2>
         </div>
         <p class="lead">
-          No separate song pages in this first version. Lyrics live here with the album for a cleaner, more focused experience.
+          Every song is a chapter in the journey. Read the words alongside the music.
         </p>
       </div>
 

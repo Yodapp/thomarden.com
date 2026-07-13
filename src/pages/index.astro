@@ -22,7 +22,7 @@ import { socials } from '@/data/socials';
 
       <aside class="hero-card" aria-label="Featured album">
         <div class="album-cover">
-          <img src={album.coverImage} alt={`${album.title} album cover placeholder`} />
+          <img src={album.coverImage} alt={`${album.title} album cover`} />
         </div>
         <div class="hero-card-content">
           <p class="eyebrow">{album.releaseNote}</p>
@@ -45,7 +45,7 @@ import { socials } from '@/data/socials';
 
       <div class="album-grid">
         <div class="album-cover">
-          <img src={album.coverImage} alt={`${album.title} album cover placeholder`} />
+          <img src={album.coverImage} alt={`${album.title} album cover`} />
         </div>
         <div>
           <ol class="track-list">
@@ -73,18 +73,16 @@ import { socials } from '@/data/socials';
     <div class="container story-panel">
       <div class="glass-card">
         <p class="eyebrow">The story behind the album</p>
-        <h3>From stillness into light.</h3>
+        <h3>From silence to a new beginning.</h3>
         <p class="muted">
-          This first version leaves room for the real story text, photography and video language to arrive.
-          The structure is already in place for a cinematic album narrative without turning the site into a heavy app.
+          There are moments when everything becomes quiet — not because the world has stopped, but because we are searching for the strength to take the next step.
         </p>
       </div>
       <div class="glass-card">
-        <p class="eyebrow">Coming next</p>
-        <h3>Spotify and YouTube ready.</h3>
+        <p class="eyebrow">Ten songs. One story.</p>
+        <h3>Hope, healing, new beginnings.</h3>
         <p class="muted">
-          Streaming and social icons are already present as placeholders. Replace the links when the profiles,
-          releases and videos go live.
+          Each song traces a journey from loss and uncertainty to courage, hope and the possibility of beginning again.
         </p>
         <div class="socials">
           {socials.map((social) => <a class="social-link" href={social.href} aria-label={social.label}>{social.short}</a>)}
@@ -97,26 +95,26 @@ import { socials } from '@/data/socials';
     <div class="container">
       <div class="section-header">
         <div>
-          <p class="eyebrow">First impression</p>
-          <h2 class="section-title">A quiet, cinematic world.</h2>
+          <p class="eyebrow">The journey</p>
+          <h2 class="section-title">Broken can still be beautiful.</h2>
         </div>
         <p class="lead">
-          The design is intentionally restrained: deep shadows, warm gold, space for images, and enough motion to feel alive without getting in the way.
+          After the Silence is more than a collection of songs. It is a reminder that another chapter is always waiting to be written.
         </p>
       </div>
 
       <div class="feature-grid">
         <article class="feature-card">
-          <h3>Music first</h3>
-          <p class="muted">The album and its tracks are the center of the site, with room for full lyrics on the music page.</p>
+          <h3>Broken Beautiful</h3>
+          <p class="muted">Even the things we carry can hold their own kind of beauty.</p>
         </article>
         <article class="feature-card">
-          <h3>No noise</h3>
-          <p class="muted">No newsletter, cookies, CMS or complex backend in the first version. Just the artist, the album and the atmosphere.</p>
+          <h3>Home</h3>
+          <p class="muted">Home is not always a place. Sometimes, it is a feeling we find again.</p>
         </article>
         <article class="feature-card">
-          <h3>Ready to grow</h3>
-          <p class="muted">YouTube videos, Cloudflare Web Analytics and Cloudflare R2 audio can be added without redesigning the site.</p>
+          <h3>One More Sunrise</h3>
+          <p class="muted">Every sunrise offers another chance to begin again.</p>
         </article>
       </div>
     </div>
