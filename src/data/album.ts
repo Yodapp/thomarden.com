@@ -22,7 +22,7 @@ export const album = {
       number: 1,
       title: 'After the Silence',
       slug: 'after-the-silence',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/after-the-silence.mp3',
       lyric:
         'Lyrics placeholder for “After the Silence”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
