@@ -30,7 +30,7 @@ export const album = {
       number: 2,
       title: 'Broken Beautiful',
       slug: 'broken-beautiful',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/broken-beautiful.mp3',
       lyric:
         'Lyrics placeholder for “Broken Beautiful”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
@@ -38,7 +38,7 @@ export const album = {
       number: 3,
       title: 'Stay',
       slug: 'stay',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/stay.mp3',
       lyric:
         'Lyrics placeholder for “Stay”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
@@ -46,7 +46,7 @@ export const album = {
       number: 4,
       title: 'Home',
       slug: 'home',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/home-is-where-i-stand.mp3',
       lyric:
         'Lyrics placeholder for “Home”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
@@ -54,7 +54,7 @@ export const album = {
       number: 5,
       title: 'Gravity',
       slug: 'gravity',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/gravity.mp3',
       lyric:
         'Lyrics placeholder for “Gravity”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
@@ -62,7 +62,7 @@ export const album = {
       number: 6,
       title: 'When You Call My Name',
       slug: 'when-you-call-my-name',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/when-you-call-my-name.mp3',
       lyric:
         'Lyrics placeholder for “When You Call My Name”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
@@ -70,7 +70,7 @@ export const album = {
       number: 7,
       title: 'Echoes',
       slug: 'echoes',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/echoes.mp3',
       lyric:
         'Lyrics placeholder for “Echoes”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
@@ -78,7 +78,7 @@ export const album = {
       number: 8,
       title: 'Brave Enough',
       slug: 'brave-enough',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/brave-enough.mp3',
       lyric:
         'Lyrics placeholder for “Brave Enough”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
@@ -86,7 +86,7 @@ export const album = {
       number: 9,
       title: 'One More Sunrise',
       slug: 'one-more-sunrise',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/one-more-sunrise.mp3',
       lyric:
         'Lyrics placeholder for “One More Sunrise”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     },
@@ -94,7 +94,7 @@ export const album = {
       number: 10,
       title: 'Until Tomorrow',
       slug: 'until-tomorrow',
-      audioUrl: '',
+      audioUrl: 'https://media.thomarden.com/mp3/until-tomorrow.mp3',
       lyric:
         'Lyrics placeholder for “Until Tomorrow”. Replace this text in src/data/album.ts when the final lyrics are ready.'
     }
