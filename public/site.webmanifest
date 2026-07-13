@@ -1,0 +1,20 @@
+{
+  "name": "Thom Arden",
+  "short_name": "Thom Arden",
+  "description": "The official website of Thom Arden.",
+  "theme_color": "#080808",
+  "background_color": "#080808",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
