@@ -9,12 +9,19 @@ const { tracks } = Astro.props;
 const playableTracks = tracks.map((track) => ({
   number: track.number,
   title: track.title,
-  audioUrl: track.audioUrl
+  audioUrl: track.audioUrl,
+  coverImage: track.coverImage
 }));
 ---
 
-<section class="audio-player" data-audio-player data-tracks={JSON.stringify(playableTracks)}>
+<section
+  class="audio-player"
+  data-audio-player
+  data-tracks={JSON.stringify(playableTracks)}
+  style={`--track-artwork: url('${tracks[0]?.coverImage ?? ''}')`}
+>
   <div class="player-main">
+    <img class="player-artwork" data-artwork src={tracks[0]?.coverImage} alt="" width="96" height="96" />
     <button class="play-button" type="button" data-play aria-label="Play selected track">▶</button>
     <div class="player-copy">
       <p class="player-title" data-title>{tracks[0]?.title ?? 'Select a track'}</p>
@@ -31,7 +38,7 @@ const playableTracks = tracks.map((track) => ({
   </div>
 
   <p class="placeholder-note">
-    The player is ready for full MP3 tracks. It hides any download action in the interface, while keeping the setup simple for Cloudflare R2 audio URLs later.
+    Full tracks stream here from Thom Arden’s official music library. Download actions stay out of the interface.
   </p>
 
   <audio data-audio preload="metadata"></audio>
@@ -60,6 +67,9 @@ const playableTracks = tracks.map((track) => ({
     const loadTrack = (track) => {
       selected = track;
       title.textContent = track.title;
+      const artwork = player.querySelector('[data-artwork]');
+      if (artwork) artwork.src = track.coverImage;
+      player.style.setProperty('--track-artwork', `url('${track.coverImage}')`);
       if (!track.audioUrl) {
         audio.removeAttribute('src');
         audio.load();

@@ -37,9 +37,10 @@ import { album } from '@/data/album';
             album.tracks.map((track, index) => (
               <li class="track-row">
                 <span class="track-number">{String(track.number).padStart(2, '0')}</span>
+                <img class="track-artwork" src={track.coverImage} alt="" width="64" height="64" loading="lazy" />
                 <div>
                   <p class="track-title">{track.title}</p>
-                  <span class="track-meta">Full track placeholder</span>
+                  <span class="track-meta">Full track</span>
                 </div>
                 <button class="mini-button" type="button" data-track-play={index}>Play</button>
               </li>

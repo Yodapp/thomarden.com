@@ -335,13 +335,21 @@ button {
 
 .track-row {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) auto;
+  grid-template-columns: 32px 54px minmax(0, 1fr) auto;
   gap: 16px;
   align-items: center;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: rgba(245, 239, 230, 0.035);
   padding: 14px;
+}
+
+.track-artwork {
+  width: 54px;
+  height: 54px;
+  border: 1px solid rgba(208, 165, 122, 0.28);
+  border-radius: 12px;
+  object-fit: cover;
 }
 
 .track-number {
@@ -373,21 +381,51 @@ button {
 }
 
 .audio-player {
+  position: relative;
+  isolation: isolate;
   display: grid;
   gap: 18px;
   margin-top: 28px;
   border: 1px solid rgba(208, 165, 122, 0.25);
   border-radius: 28px;
+  overflow: hidden;
   background:
-    linear-gradient(135deg, rgba(208, 165, 122, 0.12), transparent 34%),
+    linear-gradient(135deg, rgba(208, 165, 122, 0.16), transparent 42%),
     rgba(10, 10, 10, 0.82);
   padding: 20px;
+}
+
+.audio-player::before {
+  position: absolute;
+  inset: -34px;
+  z-index: -1;
+  content: '';
+  background: var(--track-artwork) center / cover;
+  filter: blur(28px) saturate(0.85);
+  opacity: 0.26;
+  transform: scale(1.12);
+  transition: background 300ms ease;
+}
+
+.audio-player > * {
+  position: relative;
+  z-index: 1;
 }
 
 .player-main {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.player-artwork {
+  width: 68px;
+  height: 68px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(208, 165, 122, 0.38);
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
 }
 
 .play-button {
@@ -666,12 +704,18 @@ button {
   }
 
   .track-row {
-    grid-template-columns: 34px minmax(0, 1fr);
+    grid-template-columns: 26px 48px minmax(0, 1fr);
+    gap: 10px;
   }
 
   .track-row .mini-button {
-    grid-column: 2;
+    grid-column: 3;
     justify-self: start;
+  }
+
+  .track-artwork {
+    width: 48px;
+    height: 48px;
   }
 
   .progress {
