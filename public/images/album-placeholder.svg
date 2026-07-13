@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="After the Silence placeholder album cover">
+  <defs>
+    <radialGradient id="sun" cx="50%" cy="39%" r="44%">
+      <stop offset="0%" stop-color="#f0c18c" stop-opacity=".9"/>
+      <stop offset="42%" stop-color="#b8863c" stop-opacity=".34"/>
+      <stop offset="100%" stop-color="#080808" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#080808"/>
+      <stop offset="42%" stop-color="#151515"/>
+      <stop offset="100%" stop-color="#2a1f18"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#sky)"/>
+  <rect width="1200" height="1200" fill="url(#sun)"/>
+  <path d="M0 795c128-37 234-46 318-27 80 18 138 59 218 77 88 21 175-1 260-28 143-45 272-61 404-17v400H0V795Z" fill="#050505"/>
+  <path d="M0 873c155-42 280-45 377-9 72 27 123 66 206 70 86 4 155-32 248-56 131-34 249-25 369 24v298H0V873Z" fill="#0e0e0e"/>
+  <text x="600" y="515" fill="#f5efe6" font-family="Georgia, serif" font-size="86" text-anchor="middle" letter-spacing="5">THOM ARDEN</text>
+  <text x="600" y="604" fill="#d0a57a" font-family="Arial, sans-serif" font-size="34" text-anchor="middle" letter-spacing="10">AFTER THE SILENCE</text>
+</svg>

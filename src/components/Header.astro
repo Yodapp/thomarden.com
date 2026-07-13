@@ -1,0 +1,37 @@
+---
+import { site } from '@/data/site';
+
+type Props = {
+  currentPath: string;
+};
+
+const { currentPath } = Astro.props;
+const normalizedCurrent = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
+---
+
+<header class="site-header" data-menu-open="false">
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="Thom Arden home">
+      <span class="brand-mark" aria-hidden="true">TA</span>
+      <span class="brand-name">Thom Arden</span>
+    </a>
+
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">
+      Menu
+    </button>
+
+    <nav class="nav-links" id="main-navigation" aria-label="Primary navigation">
+      {
+        site.navigation.map((item) => {
+          const normalizedHref = item.href.endsWith('/') ? item.href : `${item.href}/`;
+          const isCurrent = normalizedCurrent === normalizedHref;
+          return (
+            <a href={item.href} aria-current={isCurrent ? 'page' : undefined}>
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+  </div>
+</header>

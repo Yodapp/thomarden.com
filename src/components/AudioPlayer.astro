@@ -1,0 +1,133 @@
+---
+import type { Track } from '@/data/album';
+
+type Props = {
+  tracks: Track[];
+};
+
+const { tracks } = Astro.props;
+const playableTracks = tracks.map((track) => ({
+  number: track.number,
+  title: track.title,
+  audioUrl: track.audioUrl
+}));
+---
+
+<section class="audio-player" data-audio-player data-tracks={JSON.stringify(playableTracks)}>
+  <div class="player-main">
+    <button class="play-button" type="button" data-play aria-label="Play selected track">▶</button>
+    <div class="player-copy">
+      <p class="player-title" data-title>{tracks[0]?.title ?? 'Select a track'}</p>
+      <p class="player-subtitle" data-subtitle>
+        {tracks[0]?.audioUrl ? 'Ready to play' : 'Add MP3 URLs in src/data/album.ts to enable playback'}
+      </p>
+    </div>
+  </div>
+
+  <div class="progress">
+    <span data-current>0:00</span>
+    <input data-progress type="range" min="0" max="100" value="0" aria-label="Track progress" />
+    <span data-duration>0:00</span>
+  </div>
+
+  <p class="placeholder-note">
+    The player is ready for full MP3 tracks. It hides any download action in the interface, while keeping the setup simple for Cloudflare R2 audio URLs later.
+  </p>
+
+  <audio data-audio preload="metadata"></audio>
+</section>
+
+<script>
+  // @ts-nocheck
+  const formatTime = (seconds) => {
+    if (!Number.isFinite(seconds)) return '0:00';
+    const minutes = Math.floor(seconds / 60);
+    const rest = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${minutes}:${rest}`;
+  };
+
+  document.querySelectorAll('[data-audio-player]').forEach((player) => {
+    const tracks = JSON.parse(player.getAttribute('data-tracks') || '[]');
+    const audio = player.querySelector('[data-audio]');
+    const playButton = player.querySelector('[data-play]');
+    const title = player.querySelector('[data-title]');
+    const subtitle = player.querySelector('[data-subtitle]');
+    const progress = player.querySelector('[data-progress]');
+    const current = player.querySelector('[data-current]');
+    const duration = player.querySelector('[data-duration]');
+    let selected = tracks[0];
+
+    const loadTrack = (track) => {
+      selected = track;
+      title.textContent = track.title;
+      if (!track.audioUrl) {
+        audio.removeAttribute('src');
+        audio.load();
+        playButton.textContent = '▶';
+        subtitle.textContent = 'MP3 URL not added yet';
+        progress.value = 0;
+        return false;
+      }
+
+      audio.src = track.audioUrl;
+      audio.load();
+      subtitle.textContent = `Track ${track.number}`;
+      return true;
+    };
+
+    loadTrack(selected);
+
+    document.querySelectorAll('[data-track-play]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const index = Number(button.getAttribute('data-track-play'));
+        const track = tracks[index];
+        if (!track) return;
+        if (!loadTrack(track)) return;
+
+        try {
+          await audio.play();
+          playButton.textContent = 'Ⅱ';
+        } catch {
+          subtitle.textContent = 'Playback was blocked. Try pressing play again.';
+        }
+      });
+    });
+
+    playButton.addEventListener('click', async () => {
+      if (!selected?.audioUrl) {
+        subtitle.textContent = 'Add an MP3 URL for this track first';
+        return;
+      }
+
+      if (audio.paused) {
+        try {
+          await audio.play();
+          playButton.textContent = 'Ⅱ';
+        } catch {
+          subtitle.textContent = 'Playback was blocked. Try pressing play again.';
+        }
+      } else {
+        audio.pause();
+        playButton.textContent = '▶';
+      }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      duration.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      current.textContent = formatTime(audio.currentTime);
+      progress.value = audio.duration ? String((audio.currentTime / audio.duration) * 100) : '0';
+    });
+
+    audio.addEventListener('ended', () => {
+      playButton.textContent = '▶';
+    });
+
+    progress.addEventListener('input', () => {
+      if (!audio.duration) return;
+      audio.currentTime = (Number(progress.value) / 100) * audio.duration;
+    });
+  });
+</script>

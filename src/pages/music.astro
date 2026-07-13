@@ -1,0 +1,79 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import AudioPlayer from '@/components/AudioPlayer.astro';
+import { album } from '@/data/album';
+---
+
+<BaseLayout title="Music" description="Listen to After the Silence by Thom Arden and read the album lyrics.">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Music</p>
+      <h1>After the <span>Silence</span></h1>
+      <p class="lead">{album.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container album-grid">
+      <div>
+        <div class="album-cover">
+          <img src={album.coverImage} alt={`${album.title} album cover placeholder`} />
+        </div>
+        <div class="button-row">
+          <a class="button button-secondary" href="#">Spotify soon</a>
+          <a class="button button-secondary" href="#">Apple Music soon</a>
+          <a class="button button-secondary" href="#">YouTube soon</a>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow">{album.releaseNote}</p>
+        <h2 class="section-title">{album.title}</h2>
+        <p class="lead">{album.story}</p>
+        <p class="muted">{album.credits}</p>
+
+        <ol class="track-list">
+          {
+            album.tracks.map((track, index) => (
+              <li class="track-row">
+                <span class="track-number">{String(track.number).padStart(2, '0')}</span>
+                <div>
+                  <p class="track-title">{track.title}</p>
+                  <span class="track-meta">Full track placeholder</span>
+                </div>
+                <button class="mini-button" type="button" data-track-play={index}>Play</button>
+              </li>
+            ))
+          }
+        </ol>
+
+        <AudioPlayer tracks={album.tracks} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Lyrics</p>
+          <h2 class="section-title">The words behind the songs.</h2>
+        </div>
+        <p class="lead">
+          No separate song pages in this first version. Lyrics live here with the album for a cleaner, more focused experience.
+        </p>
+      </div>
+
+      <div class="lyrics-list">
+        {
+          album.tracks.map((track) => (
+            <details class="lyric-item">
+              <summary>{String(track.number).padStart(2, '0')} · {track.title}</summary>
+              <p class="lyric-copy">{track.lyric}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Contact" description="Contact Thom Arden for music, press and collaboration inquiries.">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Contact</p>
+      <h1>Start a <span>conversation.</span></h1>
+      <p class="lead">
+        This is a dummy form for the first version. A real form backend can be added later with Cloudflare Pages Functions, a Worker, or another form service.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-card">
+      <form class="form" action="#" method="post">
+        <label class="field">
+          <span>Name</span>
+          <input type="text" name="name" placeholder="Your name" />
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="you@example.com" />
+        </label>
+        <label class="field">
+          <span>Message</span>
+          <textarea name="message" placeholder="Tell me what this is about"></textarea>
+        </label>
+        <button class="button button-primary" type="button">Dummy form — not connected yet</button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

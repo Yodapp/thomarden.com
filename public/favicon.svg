@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Thom Arden monogram">
+  <rect width="120" height="120" rx="28" fill="#080808"/>
+  <circle cx="60" cy="60" r="43" fill="none" stroke="#d0a57a" stroke-width="3"/>
+  <path d="M31 39h58v9H65v39H55V48H31v-9Z" fill="#f5efe6"/>
+  <path d="M77 87 62 39h10l17 48H77Z" fill="#d0a57a" opacity=".9"/>
+</svg>
