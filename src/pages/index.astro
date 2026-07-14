@@ -48,22 +48,23 @@ import { socials } from '@/data/socials';
           <img src={album.coverImage} alt={`${album.title} album cover`} />
         </div>
         <div>
+          <AudioPlayer tracks={album.tracks} fallbackArtwork={album.coverImage} />
+
           <ol class="track-list">
             {
               album.tracks.map((track, index) => (
-                <li class="track-row">
+                <li class="track-row" data-track-row>
                   <span class="track-number">{String(track.number).padStart(2, '0')}</span>
+                  <img class="track-artwork" src={track.coverImage} alt="" width="64" height="64" loading="lazy" />
                   <div>
                     <p class="track-title">{track.title}</p>
-                    <span class="track-meta">Full track placeholder</span>
+                    <span class="track-meta">Full track</span>
                   </div>
-                  <button class="mini-button" type="button" data-track-play={index}>Play</button>
+                  <button class="mini-button" type="button" data-track-play={index} aria-pressed="false">Play</button>
                 </li>
               ))
             }
           </ol>
-
-          <AudioPlayer tracks={album.tracks} />
         </div>
       </div>
     </div>

@@ -3,9 +3,10 @@ import type { Track } from '@/data/album';
 
 type Props = {
   tracks: Track[];
+  fallbackArtwork: string;
 };
 
-const { tracks } = Astro.props;
+const { tracks, fallbackArtwork } = Astro.props;
 const playableTracks = tracks.map((track) => ({
   number: track.number,
   title: track.title,
@@ -18,10 +19,11 @@ const playableTracks = tracks.map((track) => ({
   class="audio-player"
   data-audio-player
   data-tracks={JSON.stringify(playableTracks)}
-  style={`--track-artwork: url('${tracks[0]?.coverImage ?? ''}')`}
+  data-fallback-artwork={fallbackArtwork}
+  style={`--track-artwork: url('${tracks[0]?.coverImage ?? fallbackArtwork}')`}
 >
   <div class="player-main">
-    <img class="player-artwork" data-artwork src={tracks[0]?.coverImage} alt="" width="96" height="96" />
+    <img class="player-artwork" data-artwork src={tracks[0]?.coverImage ?? fallbackArtwork} alt="" width="96" height="96" />
     <button class="play-button" type="button" data-play aria-label="Play selected track">▶</button>
     <div class="player-copy">
       <p class="player-title" data-title>{tracks[0]?.title ?? 'Select a track'}</p>
@@ -62,26 +64,55 @@ const playableTracks = tracks.map((track) => ({
     const progress = player.querySelector('[data-progress]');
     const current = player.querySelector('[data-current]');
     const duration = player.querySelector('[data-duration]');
+    const artwork = player.querySelector('[data-artwork]');
+    const fallbackArtwork = player.getAttribute('data-fallback-artwork') || '';
+    const trackButtons = document.querySelectorAll('[data-track-play]');
     let selected = tracks[0];
+
+    const updateTrackState = () => {
+      trackButtons.forEach((button) => {
+        const index = Number(button.getAttribute('data-track-play'));
+        const isSelected = tracks[index]?.number === selected?.number;
+        const isPlaying = isSelected && !audio.paused;
+        const row = button.closest('[data-track-row]');
+
+        row?.classList.toggle('is-selected', isSelected);
+        row?.classList.toggle('is-playing', isPlaying);
+        button.textContent = isPlaying ? 'Pause' : 'Play';
+        button.setAttribute('aria-pressed', String(isPlaying));
+      });
+    };
+
+    const updateArtwork = (track) => {
+      if (!artwork) return;
+      const imageUrl = track.coverImage || fallbackArtwork;
+      artwork.onerror = () => {
+        artwork.onerror = null;
+        artwork.src = fallbackArtwork;
+        player.style.setProperty('--track-artwork', `url('${fallbackArtwork}')`);
+      };
+      artwork.src = imageUrl;
+      player.style.setProperty('--track-artwork', `url('${imageUrl}')`);
+    };
 
     const loadTrack = (track) => {
       selected = track;
       title.textContent = track.title;
-      const artwork = player.querySelector('[data-artwork]');
-      if (artwork) artwork.src = track.coverImage;
-      player.style.setProperty('--track-artwork', `url('${track.coverImage}')`);
+      updateArtwork(track);
       if (!track.audioUrl) {
         audio.removeAttribute('src');
         audio.load();
         playButton.textContent = '▶';
         subtitle.textContent = 'MP3 URL not added yet';
         progress.value = 0;
+        updateTrackState();
         return false;
       }
 
       audio.src = track.audioUrl;
       audio.load();
       subtitle.textContent = `Track ${track.number}`;
+      updateTrackState();
       return true;
     };
 
@@ -92,11 +123,18 @@ const playableTracks = tracks.map((track) => ({
         const index = Number(button.getAttribute('data-track-play'));
         const track = tracks[index];
         if (!track) return;
-        if (!loadTrack(track)) return;
+
+        if (selected?.number === track.number && !audio.paused) {
+          audio.pause();
+          return;
+        }
+
+        if (selected?.number !== track.number && !loadTrack(track)) return;
 
         try {
           await audio.play();
           playButton.textContent = 'Ⅱ';
+          updateTrackState();
         } catch {
           subtitle.textContent = 'Playback was blocked. Try pressing play again.';
         }
@@ -113,12 +151,14 @@ const playableTracks = tracks.map((track) => ({
         try {
           await audio.play();
           playButton.textContent = 'Ⅱ';
+          updateTrackState();
         } catch {
           subtitle.textContent = 'Playback was blocked. Try pressing play again.';
         }
       } else {
         audio.pause();
         playButton.textContent = '▶';
+        updateTrackState();
       }
     });
 
@@ -133,7 +173,11 @@ const playableTracks = tracks.map((track) => ({
 
     audio.addEventListener('ended', () => {
       playButton.textContent = '▶';
+      updateTrackState();
     });
+
+    audio.addEventListener('pause', updateTrackState);
+    audio.addEventListener('play', updateTrackState);
 
     progress.addEventListener('input', () => {
       if (!audio.duration) return;
