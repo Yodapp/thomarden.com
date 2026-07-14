@@ -53,13 +53,20 @@ import { album } from '@/data/album';
             {
               album.tracks.map((track, index) => (
                 <li class="track-row" data-track-row>
-                  <span class="track-number">{String(track.number).padStart(2, '0')}</span>
-                  <img class="track-artwork" src={track.coverImage} alt="" width="64" height="64" loading="lazy" />
-                  <div>
+                  <img class="track-artwork" src={track.coverImage} alt="" width="56" height="56" loading="lazy" />
+                  <div class="track-copy">
                     <p class="track-title">{track.title}</p>
-                    <span class="track-meta">Full track</span>
                   </div>
-                  <button class="mini-button" type="button" data-track-play={index} aria-pressed="false">Play</button>
+                  <button
+                    class="mini-button"
+                    type="button"
+                    data-track-play={index}
+                    aria-label={`Play ${track.title}`}
+                    aria-pressed="false"
+                  >
+                    <svg class="control-icon control-icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" /></svg>
+                    <svg class="control-icon control-icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5.5h3.25v13H7.5zm5.75 0h3.25v13h-3.25z" /></svg>
+                  </button>
                 </li>
               ))
             }
