@@ -4,7 +4,7 @@ import AudioPlayer from '@/components/AudioPlayer.astro';
 import { album } from '@/data/album';
 ---
 
-<BaseLayout title="Music" description="Listen to After the Silence by Thom Arden and read the album lyrics.">
+<BaseLayout title="Music" description="Listen to After the Silence by Thom Arden.">
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">Music</p>
@@ -18,11 +18,6 @@ import { album } from '@/data/album';
       <div>
         <div class="album-cover">
           <img src={album.coverImage} alt={`${album.title} album cover`} />
-        </div>
-        <div class="button-row">
-          <a class="button button-secondary" href="#">Spotify soon</a>
-          <a class="button button-secondary" href="#">Apple Music soon</a>
-          <a class="button button-secondary" href="#">YouTube soon</a>
         </div>
       </div>
 
@@ -38,13 +33,20 @@ import { album } from '@/data/album';
           {
             album.tracks.map((track, index) => (
               <li class="track-row" data-track-row>
-                <span class="track-number">{String(track.number).padStart(2, '0')}</span>
-                <img class="track-artwork" src={track.coverImage} alt="" width="64" height="64" loading="lazy" />
-                <div>
+                <img class="track-artwork" src={track.coverImage} alt="" width="56" height="56" loading="lazy" />
+                <div class="track-copy">
                   <p class="track-title">{track.title}</p>
-                  <span class="track-meta">Full track</span>
                 </div>
-                <button class="mini-button" type="button" data-track-play={index} aria-pressed="false">Play</button>
+                <button
+                  class="mini-button"
+                  type="button"
+                  data-track-play={index}
+                  aria-label={`Play ${track.title}`}
+                  aria-pressed="false"
+                >
+                  <svg class="control-icon control-icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" /></svg>
+                  <svg class="control-icon control-icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5.5h3.25v13H7.5zm5.75 0h3.25v13h-3.25z" /></svg>
+                </button>
               </li>
             ))
           }
@@ -66,28 +68,4 @@ import { album } from '@/data/album';
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <div>
-          <p class="eyebrow">Lyrics</p>
-          <h2 class="section-title">The words behind the songs.</h2>
-        </div>
-        <p class="lead">
-          Every song is a chapter in the journey. Read the words alongside the music.
-        </p>
-      </div>
-
-      <div class="lyrics-list">
-        {
-          album.tracks.map((track) => (
-            <details class="lyric-item">
-              <summary>{String(track.number).padStart(2, '0')} · {track.title}</summary>
-              <p class="lyric-copy">{track.lyric}</p>
-            </details>
-          ))
-        }
-      </div>
-    </div>
-  </section>
 </BaseLayout>

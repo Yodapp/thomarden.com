@@ -2,27 +2,22 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Videos" description="Future YouTube videos and visual releases from Thom Arden.">
+<BaseLayout title="Videos" description="Official visual releases from Thom Arden.">
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">Videos</p>
       <h1>Visuals for the <span>music.</span></h1>
       <p class="lead">
-        YouTube embeds will live here once the videos are published. For now, these placeholders preserve the visual rhythm of the site.
+        A home for official music videos, lyric films and behind-the-scenes moments.
       </p>
     </div>
   </section>
 
   <section class="section">
-    <div class="container video-grid">
-      {['Official music video', 'Lyric video', 'Behind the scenes'].map((title) => (
-        <article class="video-card">
-          <div class="video-thumb" aria-hidden="true">▶</div>
-          <p class="eyebrow">YouTube soon</p>
-          <h3>{title}</h3>
-          <p class="muted">Replace this card with a YouTube thumbnail and link when the video is live.</p>
-        </article>
-      ))}
+    <div class="container glass-card" style="padding: 32px;">
+      <p class="eyebrow">Visual releases</p>
+      <h2 class="section-title">Music made to be seen.</h2>
+      <p class="muted">Official visual releases will be collected here as they are shared.</p>
     </div>
   </section>
 </BaseLayout>

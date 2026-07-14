@@ -1,10 +1,10 @@
 # Thom Arden artist site
 
-First version of the Thom Arden artist website. The site is built as a static Astro project for GitHub + Cloudflare Workers with static assets.
+The Thom Arden artist website is a static Astro project for GitHub + Cloudflare Workers with static assets.
 
 ## Project goal
 
-The first release prioritizes design, atmosphere, album presentation, lyrics and a simple on-site music player. It intentionally does not include CMS, newsletter, cookies, press kit, or a real contact-form backend yet.
+The site prioritizes atmosphere, album presentation, and an on-site music player. Contact is handled through the published email address.
 
 ## Local development
 
@@ -24,11 +24,10 @@ npm run build
 ## Where to edit content
 
 - Artist/site metadata: `src/data/site.ts`
-- Album, tracks, lyrics and MP3 URLs: `src/data/album.ts`
-- Social and streaming links: `src/data/socials.ts`
+- Album, tracks and MP3 URLs: `src/data/album.ts`
 - Main styling: `src/styles/global.css`
 
-## Replacing placeholders
+## Updating content
 
 ### Album cover
 
@@ -44,7 +43,7 @@ Then update `coverImage` in `src/data/album.ts` if the filename changes.
 
 The player reads each track URL from `src/data/album.ts`.
 
-For now, the values are empty placeholders. Later, upload MP3 files to Cloudflare R2 and use URLs like:
+Update a track's `audioUrl` when its audio file moves. For example:
 
 ```text
 https://media.thomarden.com/audio/after-the-silence.mp3
@@ -52,17 +51,13 @@ https://media.thomarden.com/audio/after-the-silence.mp3
 
 There is no visible download button. Public audio URLs are still technically accessible to knowledgeable users.
 
-### Social links
-
-Replace `#` links in `src/data/socials.ts` with the real Spotify, Apple Music, YouTube, Instagram, TikTok and Facebook URLs.
-
 ### YouTube videos
 
-Update the placeholders in `src/pages/videos.astro` once YouTube links are available.
+Add official video embeds or links in `src/pages/videos.astro` when visual releases are available.
 
 ### Cloudflare Web Analytics
 
-Add the Cloudflare Web Analytics script to `src/layouts/BaseLayout.astro` when the site token is available. No analytics script is included yet.
+The site does not include a Cloudflare Web Analytics script. Update the privacy page before enabling one.
 
 ## Cloudflare Workers build settings
 
