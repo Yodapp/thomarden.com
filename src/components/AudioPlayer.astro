@@ -36,6 +36,18 @@ const playableTracks = tracks.map((track) => ({
     </button>
   </div>
 
+  <div class="player-visualizer" aria-hidden="true">
+    {
+      [42, 68, 86, 58, 94, 72, 48, 82, 100, 64, 88, 54, 76, 96, 62, 84, 46, 70].map(
+        (height, index) => (
+          <span
+            style={`--bar-height: ${height}%; --bar-duration: ${0.72 + (index % 5) * 0.11}s; --bar-delay: -${(index * 0.13) % 0.8}s`}
+          />
+        )
+      )
+    }
+  </div>
+
   <div class="progress">
     <span data-current>0:00</span>
     <input data-progress type="range" min="0" max="100" value="0" aria-label="Track progress" />
@@ -75,10 +87,14 @@ const playableTracks = tracks.map((track) => ({
     };
 
     const updateTrackState = () => {
+      const playerIsPlaying = Boolean(selected && !audio.paused && !audio.ended);
+      player.classList.toggle('is-playing', playerIsPlaying);
+      playButton.setAttribute('aria-label', playerIsPlaying ? 'Pause selected track' : 'Play selected track');
+
       trackButtons.forEach((button) => {
         const index = Number(button.getAttribute('data-track-play'));
         const isSelected = tracks[index]?.number === selected?.number;
-        const isPlaying = isSelected && !audio.paused;
+        const isPlaying = isSelected && playerIsPlaying;
         const row = button.closest('[data-track-row]');
 
         row?.classList.toggle('is-selected', isSelected);

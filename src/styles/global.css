@@ -499,6 +499,68 @@ button {
   font-size: 0.9rem;
 }
 
+.player-visualizer {
+  position: relative;
+  display: flex;
+  height: 58px;
+  align-items: end;
+  justify-content: space-between;
+  gap: clamp(3px, 1.1%, 7px);
+  overflow: hidden;
+  border-block: 1px solid rgba(245, 239, 230, 0.08);
+  padding: 10px 2px 8px;
+}
+
+.player-visualizer::after {
+  position: absolute;
+  right: 0;
+  bottom: 7px;
+  left: 0;
+  height: 1px;
+  content: '';
+  background: linear-gradient(90deg, transparent, rgba(208, 165, 122, 0.34), transparent);
+}
+
+.player-visualizer span {
+  width: 100%;
+  height: var(--bar-height);
+  min-height: 5px;
+  border-radius: 999px 999px 3px 3px;
+  background: linear-gradient(to top, rgba(184, 134, 60, 0.52), var(--gold) 72%, #f2d4b7);
+  box-shadow: 0 0 12px rgba(208, 165, 122, 0.12);
+  opacity: 0.42;
+  transform: scaleY(0.12);
+  transform-origin: bottom;
+  animation: visualizer-pulse var(--bar-duration) ease-in-out var(--bar-delay) infinite alternate;
+  animation-play-state: paused;
+  transition:
+    opacity 280ms ease,
+    transform 420ms ease;
+}
+
+.audio-player.is-playing .player-visualizer span {
+  opacity: 0.92;
+  animation-play-state: running;
+}
+
+@keyframes visualizer-pulse {
+  0% {
+    transform: scaleY(0.16);
+  }
+
+  45% {
+    transform: scaleY(0.82);
+  }
+
+  72% {
+    transform: scaleY(0.38);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
 .progress {
   display: grid;
   grid-template-columns: 42px 1fr 42px;
@@ -667,6 +729,11 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .player-visualizer span {
+    animation: none;
+    transform: scaleY(0.24);
+  }
+
   *,
   *::before,
   *::after {
