@@ -24,13 +24,16 @@ const playableTracks = tracks.map((track) => ({
 >
   <div class="player-main">
     <img class="player-artwork" data-artwork src={tracks[0]?.coverImage ?? fallbackArtwork} alt="" width="96" height="96" />
-    <button class="play-button" type="button" data-play aria-label="Play selected track">▶</button>
     <div class="player-copy">
       <p class="player-title" data-title>{tracks[0]?.title ?? 'Select a track'}</p>
       <p class="player-subtitle" data-subtitle>
         {tracks[0]?.audioUrl ? 'Full track' : 'Audio unavailable'}
       </p>
     </div>
+    <button class="play-button" type="button" data-play aria-label="Play selected track" aria-pressed="false">
+      <svg class="control-icon control-icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" /></svg>
+      <svg class="control-icon control-icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5.5h3.25v13H7.5zm5.75 0h3.25v13h-3.25z" /></svg>
+    </button>
   </div>
 
   <div class="progress">
@@ -65,6 +68,12 @@ const playableTracks = tracks.map((track) => ({
     const trackButtons = document.querySelectorAll('[data-track-play]');
     let selected = tracks[0];
 
+    const setPlayControlState = (button, isPlaying, track) => {
+      button.classList.toggle('is-playing', isPlaying);
+      button.setAttribute('aria-pressed', String(isPlaying));
+      button.setAttribute('aria-label', `${isPlaying ? 'Pause' : 'Play'} ${track?.title || 'selected track'}`);
+    };
+
     const updateTrackState = () => {
       trackButtons.forEach((button) => {
         const index = Number(button.getAttribute('data-track-play'));
@@ -74,9 +83,10 @@ const playableTracks = tracks.map((track) => ({
 
         row?.classList.toggle('is-selected', isSelected);
         row?.classList.toggle('is-playing', isPlaying);
-        button.textContent = isPlaying ? 'Pause' : 'Play';
-        button.setAttribute('aria-pressed', String(isPlaying));
+        setPlayControlState(button, isPlaying, tracks[index]);
       });
+
+      setPlayControlState(playButton, !audio.paused, selected);
     };
 
     const updateArtwork = (track) => {
@@ -98,7 +108,6 @@ const playableTracks = tracks.map((track) => ({
       if (!track.audioUrl) {
         audio.removeAttribute('src');
         audio.load();
-        playButton.textContent = '▶';
         subtitle.textContent = 'Audio unavailable';
         progress.value = 0;
         updateTrackState();
@@ -129,7 +138,6 @@ const playableTracks = tracks.map((track) => ({
 
         try {
           await audio.play();
-          playButton.textContent = 'Ⅱ';
           updateTrackState();
         } catch {
           subtitle.textContent = 'Playback was blocked. Try pressing play again.';
@@ -146,14 +154,12 @@ const playableTracks = tracks.map((track) => ({
       if (audio.paused) {
         try {
           await audio.play();
-          playButton.textContent = 'Ⅱ';
           updateTrackState();
         } catch {
           subtitle.textContent = 'Playback was blocked. Try pressing play again.';
         }
       } else {
         audio.pause();
-        playButton.textContent = '▶';
         updateTrackState();
       }
     });
@@ -168,7 +174,6 @@ const playableTracks = tracks.map((track) => ({
     });
 
     audio.addEventListener('ended', () => {
-      playButton.textContent = '▶';
       updateTrackState();
     });
 

@@ -326,7 +326,7 @@ button {
 
 .track-list {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -334,13 +334,13 @@ button {
 
 .track-row {
   display: grid;
-  grid-template-columns: 32px 54px minmax(0, 1fr) auto;
-  gap: 16px;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  gap: 14px;
   align-items: center;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 14px;
   background: rgba(245, 239, 230, 0.035);
-  padding: 14px;
+  padding: 8px;
   transition:
     border-color 180ms ease,
     background 180ms ease,
@@ -356,73 +356,82 @@ button {
   box-shadow: inset 3px 0 0 var(--gold), 0 10px 28px rgba(0, 0, 0, 0.18);
 }
 
-.track-row.is-playing .track-title,
-.track-row.is-playing .track-number {
+.track-row.is-playing .track-title {
   color: var(--gold);
 }
 
 .track-artwork {
-  width: 54px;
-  height: 54px;
+  width: 56px;
+  height: 56px;
   border: 1px solid rgba(208, 165, 122, 0.28);
-  border-radius: 12px;
+  border-radius: 10px;
   object-fit: cover;
 }
 
-.track-number {
-  color: var(--gold);
-  font-size: 0.82rem;
-  font-weight: 800;
+.track-copy {
+  min-width: 0;
 }
 
 .track-title {
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 750;
 }
 
-.track-meta {
-  color: var(--muted);
-  font-size: 0.84rem;
+.control-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 .mini-button {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
   border: 1px solid rgba(208, 165, 122, 0.46);
-  border-radius: 999px;
+  border-radius: 50%;
   background: rgba(208, 165, 122, 0.08);
   color: var(--cream);
-  padding: 8px 12px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  padding: 0;
 }
 
+.mini-button.is-playing,
 .track-row.is-selected .mini-button {
   border-color: var(--gold);
   background: var(--gold);
   color: #17110d;
 }
 
+.control-icon-pause {
+  display: none;
+}
+
+.is-playing .control-icon-play {
+  display: none;
+}
+
+.is-playing .control-icon-pause {
+  display: block;
+}
+
 .audio-player {
-  position: relative;
+  position: sticky;
+  top: 88px;
+  z-index: 20;
   isolation: isolate;
   display: grid;
-  gap: 18px;
+  gap: 12px;
   margin: 0 0 20px;
   border: 1px solid rgba(208, 165, 122, 0.25);
-  border-radius: 28px;
+  border-radius: 20px;
   overflow: hidden;
   background:
     linear-gradient(135deg, rgba(208, 165, 122, 0.16), transparent 42%),
     rgba(10, 10, 10, 0.82);
-  padding: 20px;
-}
-
-@media (min-width: 861px) {
-  .audio-player {
-    position: sticky;
-    top: 96px;
-  }
+  padding: 14px;
 }
 
 .audio-player::before {
@@ -445,38 +454,42 @@ button {
 .player-main {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .player-artwork {
-  width: 68px;
-  height: 68px;
+  width: 56px;
+  height: 56px;
   flex: 0 0 auto;
   border: 1px solid rgba(208, 165, 122, 0.38);
-  border-radius: 16px;
+  border-radius: 12px;
   object-fit: cover;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
 }
 
 .play-button {
   display: grid;
-  flex: 0 0 auto;
-  width: 54px;
-  height: 54px;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
   place-items: center;
   border: 0;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--gold), var(--bronze));
   color: #111;
-  font-weight: 900;
+  padding: 0;
 }
 
 .player-copy {
   min-width: 0;
+  flex: 1;
 }
 
 .player-title {
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 800;
 }
 
@@ -489,7 +502,7 @@ button {
 .progress {
   display: grid;
   grid-template-columns: 42px 1fr 42px;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   color: var(--muted);
   font-size: 0.78rem;
@@ -631,13 +644,12 @@ button {
   }
 
   .track-row {
-    grid-template-columns: 26px 48px minmax(0, 1fr);
+    grid-template-columns: 48px minmax(0, 1fr) auto;
     gap: 10px;
   }
 
-  .track-row .mini-button {
-    grid-column: 3;
-    justify-self: start;
+  .audio-player {
+    top: 80px;
   }
 
   .track-artwork {
