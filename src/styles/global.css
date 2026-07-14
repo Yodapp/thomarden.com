@@ -170,7 +170,7 @@ button {
   background:
     linear-gradient(90deg, rgba(8, 8, 8, 0.88), rgba(8, 8, 8, 0.42) 45%, rgba(8, 8, 8, 0.86)),
     linear-gradient(0deg, #080808 0%, transparent 34%, rgba(8, 8, 8, 0.08) 100%),
-    url('/images/hero-placeholder.svg') center / cover;
+    url('/images/hero-ocean-sunrise.svg') center / cover;
   transform: scale(1.02);
 }
 
@@ -215,8 +215,7 @@ button {
   font-size: clamp(1.05rem, 2vw, 1.26rem);
 }
 
-.hero-actions,
-.button-row {
+.hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
@@ -501,13 +500,6 @@ button {
   accent-color: var(--gold);
 }
 
-.placeholder-note {
-  border-left: 2px solid var(--gold);
-  color: var(--muted);
-  padding-left: 14px;
-  font-size: 0.9rem;
-}
-
 .story-panel {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -519,60 +511,25 @@ button {
 }
 
 .story-panel h3,
-.feature-card h3,
-.video-card h3 {
+.feature-card h3 {
   margin: 0 0 12px;
   font-family: var(--serif);
   font-size: 2rem;
   font-weight: 400;
 }
 
-.feature-grid,
-.video-grid {
+.feature-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 }
 
 .feature-card,
-.video-card,
 .contact-card {
   border: 1px solid var(--line);
   border-radius: 26px;
   background: rgba(245, 239, 230, 0.04);
   padding: 26px;
-}
-
-.video-thumb {
-  display: grid;
-  min-height: 190px;
-  place-items: center;
-  border: 1px solid rgba(208, 165, 122, 0.22);
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at 70% 30%, rgba(208, 165, 122, 0.22), transparent 30%),
-    linear-gradient(135deg, #17110d, #050505);
-  color: var(--gold);
-  font-size: 2rem;
-}
-
-.socials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.social-link {
-  display: inline-grid;
-  width: 42px;
-  height: 42px;
-  place-items: center;
-  border: 1px solid rgba(208, 165, 122, 0.35);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--cream);
-  font-size: 0.72rem;
-  font-weight: 900;
 }
 
 .page-hero {
@@ -581,66 +538,6 @@ button {
 
 .page-hero h1 {
   font-size: clamp(3.6rem, 9vw, 8rem);
-}
-
-.lyrics-list {
-  display: grid;
-  gap: 12px;
-}
-
-.lyric-item {
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(245, 239, 230, 0.035);
-  padding: 0;
-}
-
-.lyric-item summary {
-  cursor: pointer;
-  padding: 18px 20px;
-  color: var(--cream);
-  font-weight: 800;
-}
-
-.lyric-copy {
-  margin: 0;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  padding: 18px 20px 22px;
-  white-space: pre-wrap;
-}
-
-.form {
-  display: grid;
-  gap: 16px;
-}
-
-.field {
-  display: grid;
-  gap: 8px;
-}
-
-.field span {
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.field input,
-.field textarea {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(8, 8, 8, 0.56);
-  color: var(--cream);
-  padding: 14px 16px;
-}
-
-.field textarea {
-  min-height: 150px;
-  resize: vertical;
 }
 
 .site-footer {
@@ -709,8 +606,7 @@ button {
     padding-block: 74px;
   }
 
-  .feature-grid,
-  .video-grid {
+  .feature-grid {
     grid-template-columns: 1fr;
   }
 

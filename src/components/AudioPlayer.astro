@@ -28,7 +28,7 @@ const playableTracks = tracks.map((track) => ({
     <div class="player-copy">
       <p class="player-title" data-title>{tracks[0]?.title ?? 'Select a track'}</p>
       <p class="player-subtitle" data-subtitle>
-        {tracks[0]?.audioUrl ? 'Ready to play' : 'Add MP3 URLs in src/data/album.ts to enable playback'}
+        {tracks[0]?.audioUrl ? 'Full track' : 'Audio unavailable'}
       </p>
     </div>
   </div>
@@ -38,10 +38,6 @@ const playableTracks = tracks.map((track) => ({
     <input data-progress type="range" min="0" max="100" value="0" aria-label="Track progress" />
     <span data-duration>0:00</span>
   </div>
-
-  <p class="placeholder-note">
-    Full tracks stream here from Thom Arden’s official music library. Download actions stay out of the interface.
-  </p>
 
   <audio data-audio preload="metadata"></audio>
 </section>
@@ -103,7 +99,7 @@ const playableTracks = tracks.map((track) => ({
         audio.removeAttribute('src');
         audio.load();
         playButton.textContent = '▶';
-        subtitle.textContent = 'MP3 URL not added yet';
+        subtitle.textContent = 'Audio unavailable';
         progress.value = 0;
         updateTrackState();
         return false;
@@ -143,7 +139,7 @@ const playableTracks = tracks.map((track) => ({
 
     playButton.addEventListener('click', async () => {
       if (!selected?.audioUrl) {
-        subtitle.textContent = 'Add an MP3 URL for this track first';
+        subtitle.textContent = 'Audio unavailable';
         return;
       }
 
