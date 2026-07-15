@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import AudioPlayer from '@/components/AudioPlayer.astro';
+import ArtworkLightbox from '@/components/ArtworkLightbox.astro';
 import { album } from '@/data/album';
 ---
 
@@ -17,7 +18,16 @@ import { album } from '@/data/album';
     <div class="container album-grid">
       <div>
         <div class="album-cover">
-          <img src={album.coverImage} alt={`${album.title} album cover`} />
+          <button
+            class="artwork-trigger album-cover-trigger"
+            type="button"
+            data-artwork-open
+            data-artwork-title={`${album.title} album cover`}
+            aria-label={`Open ${album.title} album cover`}
+            aria-haspopup="dialog"
+          >
+            <img src={album.coverImage} alt={`${album.title} album cover`} />
+          </button>
         </div>
       </div>
 
@@ -33,7 +43,23 @@ import { album } from '@/data/album';
           {
             album.tracks.map((track, index) => (
               <li class="track-row" data-track-row>
-                <img class="track-artwork" src={track.coverImage} alt="" width="56" height="56" loading="lazy" />
+                <button
+                  class="artwork-trigger track-artwork-trigger"
+                  type="button"
+                  data-artwork-open
+                  data-artwork-title={`${track.title} cover`}
+                  aria-label={`Open ${track.title} cover`}
+                  aria-haspopup="dialog"
+                >
+                  <img
+                    class="track-artwork"
+                    src={track.coverImage}
+                    alt={`${track.title} cover`}
+                    width="56"
+                    height="56"
+                    loading="lazy"
+                  />
+                </button>
                 <div class="track-copy">
                   <p class="track-title">{track.title}</p>
                 </div>
@@ -67,5 +93,7 @@ import { album } from '@/data/album';
       </p>
     </div>
   </section>
+
+  <ArtworkLightbox />
 
 </BaseLayout>

@@ -23,7 +23,23 @@ const playableTracks = tracks.map((track) => ({
   style={`--track-artwork: url('${tracks[0]?.coverImage ?? fallbackArtwork}')`}
 >
   <div class="player-main">
-    <img class="player-artwork" data-artwork src={tracks[0]?.coverImage ?? fallbackArtwork} alt="" width="96" height="96" />
+    <button
+      class="artwork-trigger player-artwork-trigger"
+      type="button"
+      data-artwork-open
+      data-artwork-title={`${tracks[0]?.title ?? 'Selected track'} cover`}
+      aria-label={`Open ${tracks[0]?.title ?? 'selected track'} cover`}
+      aria-haspopup="dialog"
+    >
+      <img
+        class="player-artwork"
+        data-artwork
+        src={tracks[0]?.coverImage ?? fallbackArtwork}
+        alt={`${tracks[0]?.title ?? 'Selected track'} cover`}
+        width="96"
+        height="96"
+      />
+    </button>
     <div class="player-copy">
       <p class="player-title" data-title>{tracks[0]?.title ?? 'Select a track'}</p>
       <p class="player-subtitle" data-subtitle>
@@ -76,6 +92,7 @@ const playableTracks = tracks.map((track) => ({
     const current = player.querySelector('[data-current]');
     const duration = player.querySelector('[data-duration]');
     const artwork = player.querySelector('[data-artwork]');
+    const artworkTrigger = player.querySelector('[data-artwork-open]');
     const fallbackArtwork = player.getAttribute('data-fallback-artwork') || '';
     const trackButtons = document.querySelectorAll('[data-track-play]');
     let selected = tracks[0];
@@ -108,12 +125,16 @@ const playableTracks = tracks.map((track) => ({
     const updateArtwork = (track) => {
       if (!artwork) return;
       const imageUrl = track.coverImage || fallbackArtwork;
+      const artworkTitle = `${track.title} cover`;
       artwork.onerror = () => {
         artwork.onerror = null;
         artwork.src = fallbackArtwork;
         player.style.setProperty('--track-artwork', `url('${fallbackArtwork}')`);
       };
       artwork.src = imageUrl;
+      artwork.alt = artworkTitle;
+      artworkTrigger?.setAttribute('data-artwork-title', artworkTitle);
+      artworkTrigger?.setAttribute('aria-label', `Open ${track.title} cover`);
       player.style.setProperty('--track-artwork', `url('${imageUrl}')`);
     };
 

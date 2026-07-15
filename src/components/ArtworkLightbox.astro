@@ -1,0 +1,74 @@
+<dialog class="artwork-lightbox" data-artwork-lightbox aria-labelledby="artwork-lightbox-title">
+  <div class="artwork-lightbox-panel">
+    <button class="artwork-lightbox-close" type="button" data-artwork-close aria-label="Close artwork">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z" />
+      </svg>
+    </button>
+    <img data-artwork-lightbox-image src="" alt="" />
+    <p id="artwork-lightbox-title" data-artwork-lightbox-title></p>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector('[data-artwork-lightbox]');
+
+  if (dialog instanceof HTMLDialogElement) {
+    const image = dialog.querySelector('[data-artwork-lightbox-image]');
+    const title = dialog.querySelector('[data-artwork-lightbox-title]');
+    const closeButton = dialog.querySelector('[data-artwork-close]');
+    let closeTimer = 0;
+
+    const finishClose = () => {
+      window.clearTimeout(closeTimer);
+      dialog.classList.remove('is-closing');
+      dialog.close();
+      document.documentElement.classList.remove('has-artwork-lightbox');
+    };
+
+    const closeLightbox = () => {
+      if (!dialog.open || dialog.classList.contains('is-closing')) return;
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        finishClose();
+        return;
+      }
+
+      dialog.classList.add('is-closing');
+      closeTimer = window.setTimeout(finishClose, 220);
+    };
+
+    document.querySelectorAll('[data-artwork-open]').forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.stopPropagation();
+
+        const triggerImage = trigger.querySelector('img');
+        if (!(triggerImage instanceof HTMLImageElement) || !(image instanceof HTMLImageElement)) return;
+
+        const artworkTitle = trigger.getAttribute('data-artwork-title') || triggerImage.alt || 'Album artwork';
+        image.src = triggerImage.currentSrc || triggerImage.src;
+        image.alt = artworkTitle;
+        if (title) title.textContent = artworkTitle;
+
+        dialog.classList.remove('is-closing');
+        document.documentElement.classList.add('has-artwork-lightbox');
+        dialog.showModal();
+      });
+    });
+
+    closeButton?.addEventListener('click', closeLightbox);
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) closeLightbox();
+    });
+
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeLightbox();
+    });
+
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('has-artwork-lightbox');
+    });
+  }
+</script>
