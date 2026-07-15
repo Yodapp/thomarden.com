@@ -1,4 +1,12 @@
-<dialog class="artwork-lightbox" data-artwork-lightbox aria-labelledby="artwork-lightbox-title">
+<div
+  class="artwork-lightbox"
+  data-artwork-lightbox
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+  aria-labelledby="artwork-lightbox-title"
+  hidden
+>
   <div class="artwork-lightbox-panel">
     <button class="artwork-lightbox-close" type="button" data-artwork-close aria-label="Close artwork">
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -8,33 +16,49 @@
     <img data-artwork-lightbox-image src="" alt="" />
     <p id="artwork-lightbox-title" data-artwork-lightbox-title></p>
   </div>
-</dialog>
+</div>
 
 <script>
-  const dialog = document.querySelector('[data-artwork-lightbox]');
+  const lightbox = document.querySelector('[data-artwork-lightbox]');
 
-  if (dialog instanceof HTMLDialogElement) {
-    const image = dialog.querySelector('[data-artwork-lightbox-image]');
-    const title = dialog.querySelector('[data-artwork-lightbox-title]');
-    const closeButton = dialog.querySelector('[data-artwork-close]');
+  if (lightbox instanceof HTMLElement) {
+    const image = lightbox.querySelector('[data-artwork-lightbox-image]');
+    const title = lightbox.querySelector('[data-artwork-lightbox-title]');
+    const closeButton = lightbox.querySelector<HTMLElement>('[data-artwork-close]');
+    const pageRegions = document.querySelectorAll<HTMLElement>('.site-header, main, .site-footer');
     let closeTimer = 0;
+    let previousFocus: HTMLElement | null = null;
+
+    document.body.append(lightbox);
+
+    const setPageInactive = (inactive: boolean) => {
+      pageRegions.forEach((region) => {
+        region.inert = inactive;
+        if (inactive) region.setAttribute('aria-hidden', 'true');
+        else region.removeAttribute('aria-hidden');
+      });
+    };
 
     const finishClose = () => {
       window.clearTimeout(closeTimer);
-      dialog.classList.remove('is-closing');
-      dialog.close();
+      lightbox.classList.remove('is-open', 'is-closing');
+      lightbox.hidden = true;
+      lightbox.setAttribute('aria-hidden', 'true');
       document.documentElement.classList.remove('has-artwork-lightbox');
+      setPageInactive(false);
+      previousFocus?.focus();
     };
 
     const closeLightbox = () => {
-      if (!dialog.open || dialog.classList.contains('is-closing')) return;
+      if (lightbox.hidden || lightbox.classList.contains('is-closing')) return;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         finishClose();
         return;
       }
 
-      dialog.classList.add('is-closing');
+      lightbox.classList.remove('is-open');
+      lightbox.classList.add('is-closing');
       closeTimer = window.setTimeout(finishClose, 220);
     };
 
@@ -50,25 +74,32 @@
         image.alt = artworkTitle;
         if (title) title.textContent = artworkTitle;
 
-        dialog.classList.remove('is-closing');
+        previousFocus = trigger instanceof HTMLElement ? trigger : null;
+        lightbox.classList.remove('is-closing');
+        lightbox.hidden = false;
+        lightbox.setAttribute('aria-hidden', 'false');
         document.documentElement.classList.add('has-artwork-lightbox');
-        dialog.showModal();
+        setPageInactive(true);
+        window.requestAnimationFrame(() => {
+          lightbox.classList.add('is-open');
+          closeButton?.focus();
+        });
       });
     });
 
     closeButton?.addEventListener('click', closeLightbox);
 
-    dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) closeLightbox();
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
     });
 
-    dialog.addEventListener('cancel', (event) => {
-      event.preventDefault();
-      closeLightbox();
-    });
-
-    dialog.addEventListener('close', () => {
-      document.documentElement.classList.remove('has-artwork-lightbox');
+    document.addEventListener('keydown', (event) => {
+      if (lightbox.hidden) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        closeButton?.focus();
+      }
     });
   }
 </script>
