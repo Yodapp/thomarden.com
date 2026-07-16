@@ -75,6 +75,10 @@ Important: this uses the newer Cloudflare Workers flow where static sites are de
 
 The Worker name in `wrangler.jsonc` is `thomardencom`, matching the Worker name in Cloudflare.
 
+### Cache policy
+
+`public/_headers` ensures HTML pages are never stored in a browser or CDN cache. This prevents an older page from referencing a newer, versioned CSS or JavaScript filename after a deployment. Versioned assets in `/_astro/` retain their normal cache behavior.
+
 ## Dependency note
 
 The project is currently pinned to Astro 5.18.2 because it works with the Node 22 runtime available in this local environment. `npm audit` reports advisories that are resolved by Astro 7, but Astro 7 requires Node 22.12 or newer. Recommended later step: update Node to 22.12+ and then upgrade Astro.

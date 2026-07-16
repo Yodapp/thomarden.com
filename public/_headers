@@ -1,0 +1,29 @@
+# HTML must never outlive the versioned CSS and JavaScript files it references.
+# Static assets keep their normal cache behavior.
+/
+  Cache-Control: no-store, max-age=0, must-revalidate
+  CDN-Cache-Control: no-store
+
+/about/
+  Cache-Control: no-store, max-age=0, must-revalidate
+  CDN-Cache-Control: no-store
+
+/contact/
+  Cache-Control: no-store, max-age=0, must-revalidate
+  CDN-Cache-Control: no-store
+
+/music/
+  Cache-Control: no-store, max-age=0, must-revalidate
+  CDN-Cache-Control: no-store
+
+/privacy/
+  Cache-Control: no-store, max-age=0, must-revalidate
+  CDN-Cache-Control: no-store
+
+/videos/
+  Cache-Control: no-store, max-age=0, must-revalidate
+  CDN-Cache-Control: no-store
+
+/*.html
+  Cache-Control: no-store, max-age=0, must-revalidate
+  CDN-Cache-Control: no-store
