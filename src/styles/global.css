@@ -23,6 +23,7 @@ html {
   min-width: 320px;
   background: var(--black);
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
 }
 
 body {
@@ -1018,7 +1019,7 @@ button {
 }
 
 .page-hero {
-  padding-block: 92px 42px;
+  padding-block: 128px 42px;
 }
 
 .page-hero h1 {
@@ -1220,6 +1221,10 @@ button {
 
   .page-hero h1 {
     font-size: clamp(3.4rem, 18vw, 5.4rem);
+  }
+
+  .page-hero {
+    padding-top: 116px;
   }
 
   .hero-inner {

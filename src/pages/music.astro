@@ -24,7 +24,7 @@ import { album } from '@/data/album';
             aria-label={`Open ${album.title} album cover`}
             aria-haspopup="dialog"
           >
-            <img src={album.coverImage} alt={`${album.title} album cover`} />
+            <img src={album.coverImage} alt={`${album.title} album cover`} data-album-artwork fetchpriority="high" />
           </a>
         </div>
       </div>

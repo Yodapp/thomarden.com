@@ -32,7 +32,7 @@ import { album } from '@/data/album';
         <span class="hero-card-index" aria-hidden="true">LP / 01</span>
         <div class="album-cover">
           <a class="artwork-trigger album-cover-trigger" href="#artwork-album" aria-label={`Open ${album.title} album cover`} aria-haspopup="dialog">
-            <img src={album.coverImage} alt={`${album.title} album cover`} />
+            <img src={album.coverImage} alt={`${album.title} album cover`} data-album-artwork fetchpriority="high" />
           </a>
         </div>
         <div class="hero-card-content">
@@ -62,7 +62,7 @@ import { album } from '@/data/album';
       <div class="album-grid">
         <div class="album-cover">
           <a class="artwork-trigger album-cover-trigger" href="#artwork-album" aria-label={`Open ${album.title} album cover`} aria-haspopup="dialog">
-            <img src={album.coverImage} alt={`${album.title} album cover`} />
+            <img src={album.coverImage} alt={`${album.title} album cover`} data-album-artwork />
           </a>
         </div>
         <div>

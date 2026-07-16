@@ -39,6 +39,18 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.t
     </main>
     <Footer />
     <script>
+      const albumArtworkFallback = '/images/tracks/after-the-silence.jpg';
+
+      document.querySelectorAll<HTMLImageElement>('img[data-album-artwork]').forEach((image) => {
+        const useFallback = () => {
+          if (image.src.endsWith(albumArtworkFallback)) return;
+          image.src = albumArtworkFallback;
+        };
+
+        image.addEventListener('error', useFallback);
+        if (image.complete && image.naturalWidth === 0) useFallback();
+      });
+
       const header = document.querySelector('.site-header');
       const toggle = document.querySelector('.mobile-menu-toggle');
 

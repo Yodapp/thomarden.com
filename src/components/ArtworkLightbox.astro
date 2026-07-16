@@ -9,11 +9,12 @@ type Props = {
 
 const { albumTitle, albumCover, tracks } = Astro.props;
 const artworks = [
-  { id: 'artwork-album', title: `${albumTitle} album cover`, image: albumCover },
+  { id: 'artwork-album', title: `${albumTitle} album cover`, image: albumCover, isAlbumArtwork: true },
   ...tracks.map((track) => ({
     id: `artwork-track-${track.number}`,
     title: `${track.title} cover`,
-    image: track.coverImage
+    image: track.coverImage,
+    isAlbumArtwork: false
   }))
 ];
 ---
@@ -33,7 +34,7 @@ const artworks = [
             <path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z" />
           </svg>
         </a>
-        <img src={artwork.image} alt={artwork.title} />
+        <img src={artwork.image} alt={artwork.title} data-album-artwork={artwork.isAlbumArtwork ? true : undefined} />
         <p id={`${artwork.id}-title`}>{artwork.title}</p>
       </div>
     </div>
