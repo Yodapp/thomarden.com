@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import AudioPlayer from '@/components/AudioPlayer.astro';
+import ArtworkLightbox from '@/components/ArtworkLightbox.astro';
 import { album } from '@/data/album';
 ---
 
@@ -21,7 +22,9 @@ import { album } from '@/data/album';
 
       <aside class="hero-card" aria-label="Featured album">
         <div class="album-cover">
-          <img src={album.coverImage} alt={`${album.title} album cover`} />
+          <a class="artwork-trigger album-cover-trigger" href="#artwork-album" aria-label={`Open ${album.title} album cover`} aria-haspopup="dialog">
+            <img src={album.coverImage} alt={`${album.title} album cover`} />
+          </a>
         </div>
         <div class="hero-card-content">
           <p class="eyebrow">{album.releaseNote}</p>
@@ -32,7 +35,7 @@ import { album } from '@/data/album';
     </div>
   </section>
 
-  <section class="section" id="listen">
+  <section class="section" id="music">
     <div class="container">
       <div class="section-header">
         <div>
@@ -44,7 +47,9 @@ import { album } from '@/data/album';
 
       <div class="album-grid">
         <div class="album-cover">
-          <img src={album.coverImage} alt={`${album.title} album cover`} />
+          <a class="artwork-trigger album-cover-trigger" href="#artwork-album" aria-label={`Open ${album.title} album cover`} aria-haspopup="dialog">
+            <img src={album.coverImage} alt={`${album.title} album cover`} />
+          </a>
         </div>
         <div>
           <AudioPlayer tracks={album.tracks} fallbackArtwork={album.coverImage} />
@@ -53,7 +58,14 @@ import { album } from '@/data/album';
             {
               album.tracks.map((track, index) => (
                 <li class="track-row" data-track-row>
-                  <img class="track-artwork" src={track.coverImage} alt="" width="56" height="56" loading="lazy" />
+                  <a
+                    class="artwork-trigger track-artwork-trigger"
+                    href={`#artwork-track-${track.number}`}
+                    aria-label={`Open ${track.title} cover`}
+                    aria-haspopup="dialog"
+                  >
+                    <img class="track-artwork" src={track.coverImage} alt={`${track.title} cover`} width="56" height="56" loading="lazy" />
+                  </a>
                   <div class="track-copy">
                     <p class="track-title">{track.title}</p>
                   </div>
@@ -123,4 +135,6 @@ import { album } from '@/data/album';
       </div>
     </div>
   </section>
+
+  <ArtworkLightbox albumTitle={album.title} albumCover={album.coverImage} tracks={album.tracks} />
 </BaseLayout>
