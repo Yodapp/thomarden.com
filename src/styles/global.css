@@ -769,12 +769,29 @@ button {
   gap: 22px;
 }
 
+.footer-navigation {
+  display: grid;
+  justify-items: end;
+  gap: 16px;
+}
+
+.social-links,
 .footer-links {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.social-links a {
+  color: var(--cream);
+  font-weight: 700;
+}
+
+.social-links a:hover,
+.footer-links a:hover {
+  color: var(--gold);
 }
 
 @media (max-width: 860px) {
@@ -830,6 +847,10 @@ button {
   .footer-inner {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .footer-navigation {
+    justify-items: start;
   }
 }
 
