@@ -42,10 +42,28 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.t
       const header = document.querySelector('.site-header');
       const toggle = document.querySelector('.mobile-menu-toggle');
 
+      const setMenu = (open: boolean) => {
+        header?.setAttribute('data-menu-open', String(open));
+        toggle?.setAttribute('aria-expanded', String(open));
+        toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        document.documentElement.classList.toggle('menu-is-open', open);
+      };
+
       toggle?.addEventListener('click', () => {
         const isOpen = header?.getAttribute('data-menu-open') === 'true';
-        header?.setAttribute('data-menu-open', String(!isOpen));
-        toggle.setAttribute('aria-expanded', String(!isOpen));
+        setMenu(!isOpen);
+      });
+
+      document.querySelectorAll('.nav-links a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMenu(false);
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 860) setMenu(false);
       });
     </script>
   </body>

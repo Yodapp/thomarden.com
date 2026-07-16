@@ -7,31 +7,45 @@ import { album } from '@/data/album';
 
 <BaseLayout>
   <section class="hero">
+    <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
     <div class="container hero-inner">
-      <div>
-        <p class="eyebrow">Official artist website</p>
-        <h1>Thom <span>Arden</span></h1>
+      <div class="hero-copy">
+        <p class="eyebrow hero-eyebrow"><span></span> Debut album — out now</p>
+        <h1 aria-label="Thom Arden">
+          <span class="hero-name-thom">Thom</span>
+          <span class="hero-name-arden">Arden</span>
+        </h1>
         <p class="lead">
-          Cinematic songs for the quiet after the storm — built around the debut album <em>{album.title}</em>.
+          Cinematic songs for the quiet after the storm. Step into <em>{album.title}</em> — ten songs about finding the courage to begin again.
         </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="/music/">Listen Now</a>
-          <a class="button button-secondary" href="#story">Explore the Album</a>
+          <a class="button button-primary button-play" href="/music/">
+            <span class="button-play-icon" aria-hidden="true">▶</span>
+            Play the album
+          </a>
+          <a class="text-link" href="#music">Discover the story <span aria-hidden="true">↓</span></a>
         </div>
       </div>
 
       <aside class="hero-card" aria-label="Featured album">
+        <span class="hero-card-index" aria-hidden="true">LP / 01</span>
         <div class="album-cover">
           <a class="artwork-trigger album-cover-trigger" href="#artwork-album" aria-label={`Open ${album.title} album cover`} aria-haspopup="dialog">
             <img src={album.coverImage} alt={`${album.title} album cover`} />
           </a>
         </div>
         <div class="hero-card-content">
-          <p class="eyebrow">{album.releaseNote}</p>
-          <h2>{album.title}</h2>
-          <p>{album.intro}</p>
+          <div>
+            <p class="eyebrow">Now playing</p>
+            <h2>{album.title}</h2>
+          </div>
+          <span class="hero-card-arrow" aria-hidden="true">↗</span>
         </div>
       </aside>
+    </div>
+    <div class="hero-marquee" aria-hidden="true">
+      <div>After the Silence <span>✦</span> A cinematic debut <span>✦</span> Ten songs. One story. <span>✦</span> After the Silence <span>✦</span> A cinematic debut <span>✦</span> Ten songs. One story. <span>✦</span></div>
     </div>
   </section>
 

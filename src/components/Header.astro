@@ -12,26 +12,32 @@ const normalizedCurrent = currentPath.endsWith('/') ? currentPath : `${currentPa
 <header class="site-header" data-menu-open="false">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Thom Arden home">
-      <span class="brand-mark" aria-hidden="true">TA</span>
-      <span class="brand-name">Thom Arden</span>
+      <span class="brand-name" aria-hidden="true">
+        <span>Thom</span>
+        <span>Arden</span>
+      </span>
     </a>
 
-    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">
-      Menu
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation" aria-label="Open menu">
+      <span class="menu-label">Menu</span>
+      <span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
     </button>
 
     <nav class="nav-links" id="main-navigation" aria-label="Primary navigation">
+      <p class="mobile-nav-kicker">Explore</p>
       {
-        site.navigation.map((item) => {
+        site.navigation.map((item, index) => {
           const normalizedHref = item.href.endsWith('/') ? item.href : `${item.href}/`;
           const isCurrent = normalizedCurrent === normalizedHref;
           return (
             <a href={item.href} aria-current={isCurrent ? 'page' : undefined}>
-              {item.label}
+              <span class="nav-number">{String(index + 1).padStart(2, '0')}</span>
+              <span>{item.label}</span>
             </a>
           );
         })
       }
+      <a class="mobile-nav-cta" href="/music/">Play the album <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
 </header>
