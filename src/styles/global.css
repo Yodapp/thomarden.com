@@ -283,6 +283,7 @@ button {
   color: inherit;
   padding: 0;
   cursor: zoom-in;
+  text-decoration: none;
 }
 
 .artwork-trigger img {
@@ -641,18 +642,16 @@ button {
   backdrop-filter: blur(16px);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition:
     opacity 220ms ease,
     visibility 220ms ease;
 }
 
-.artwork-lightbox.is-open {
+.artwork-lightbox:target {
   opacity: 1;
   visibility: visible;
-}
-
-.artwork-lightbox[hidden] {
-  display: none;
+  pointer-events: auto;
 }
 
 .artwork-lightbox-panel {
@@ -665,7 +664,7 @@ button {
   transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.artwork-lightbox.is-open .artwork-lightbox-panel {
+.artwork-lightbox:target .artwork-lightbox-panel {
   transform: scale(1) translateY(0);
 }
 

@@ -6,7 +6,7 @@ import { album } from '@/data/album';
 ---
 
 <BaseLayout title="Music" description="Listen to After the Silence by Thom Arden.">
-  <section class="page-hero">
+  <section class="page-hero" id="music">
     <div class="container">
       <p class="eyebrow">Music</p>
       <h1>After the <span>Silence</span></h1>
@@ -18,16 +18,14 @@ import { album } from '@/data/album';
     <div class="container album-grid">
       <div>
         <div class="album-cover">
-          <button
+          <a
             class="artwork-trigger album-cover-trigger"
-            type="button"
-            data-artwork-open
-            data-artwork-title={`${album.title} album cover`}
+            href="#artwork-album"
             aria-label={`Open ${album.title} album cover`}
             aria-haspopup="dialog"
           >
             <img src={album.coverImage} alt={`${album.title} album cover`} />
-          </button>
+          </a>
         </div>
       </div>
 
@@ -43,11 +41,9 @@ import { album } from '@/data/album';
           {
             album.tracks.map((track, index) => (
               <li class="track-row" data-track-row>
-                <button
+                <a
                   class="artwork-trigger track-artwork-trigger"
-                  type="button"
-                  data-artwork-open
-                  data-artwork-title={`${track.title} cover`}
+                  href={`#artwork-track-${track.number}`}
                   aria-label={`Open ${track.title} cover`}
                   aria-haspopup="dialog"
                 >
@@ -59,7 +55,7 @@ import { album } from '@/data/album';
                     height="56"
                     loading="lazy"
                   />
-                </button>
+                </a>
                 <div class="track-copy">
                   <p class="track-title">{track.title}</p>
                 </div>
@@ -94,6 +90,6 @@ import { album } from '@/data/album';
     </div>
   </section>
 
-  <ArtworkLightbox />
+  <ArtworkLightbox albumTitle={album.title} albumCover={album.coverImage} tracks={album.tracks} />
 
 </BaseLayout>

@@ -23,11 +23,10 @@ const playableTracks = tracks.map((track) => ({
   style={`--track-artwork: url('${tracks[0]?.coverImage ?? fallbackArtwork}')`}
 >
   <div class="player-main">
-    <button
+    <a
       class="artwork-trigger player-artwork-trigger"
-      type="button"
-      data-artwork-open
-      data-artwork-title={`${tracks[0]?.title ?? 'Selected track'} cover`}
+      data-artwork-link
+      href={`#artwork-track-${tracks[0]?.number ?? 1}`}
       aria-label={`Open ${tracks[0]?.title ?? 'selected track'} cover`}
       aria-haspopup="dialog"
     >
@@ -39,7 +38,7 @@ const playableTracks = tracks.map((track) => ({
         width="96"
         height="96"
       />
-    </button>
+    </a>
     <div class="player-copy">
       <p class="player-title" data-title>{tracks[0]?.title ?? 'Select a track'}</p>
       <p class="player-subtitle" data-subtitle>
@@ -92,7 +91,7 @@ const playableTracks = tracks.map((track) => ({
     const current = player.querySelector('[data-current]');
     const duration = player.querySelector('[data-duration]');
     const artwork = player.querySelector('[data-artwork]');
-    const artworkTrigger = player.querySelector('[data-artwork-open]');
+    const artworkTrigger = player.querySelector('[data-artwork-link]');
     const fallbackArtwork = player.getAttribute('data-fallback-artwork') || '';
     const trackButtons = document.querySelectorAll('[data-track-play]');
     let selected = tracks[0];
@@ -133,7 +132,7 @@ const playableTracks = tracks.map((track) => ({
       };
       artwork.src = imageUrl;
       artwork.alt = artworkTitle;
-      artworkTrigger?.setAttribute('data-artwork-title', artworkTitle);
+      artworkTrigger?.setAttribute('href', `#artwork-track-${track.number}`);
       artworkTrigger?.setAttribute('aria-label', `Open ${track.title} cover`);
       player.style.setProperty('--track-artwork', `url('${imageUrl}')`);
     };

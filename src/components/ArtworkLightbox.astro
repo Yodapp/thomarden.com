@@ -1,107 +1,41 @@
-<div
-  class="artwork-lightbox"
-  data-artwork-lightbox
-  role="dialog"
-  aria-modal="true"
-  aria-hidden="true"
-  aria-labelledby="artwork-lightbox-title"
-  hidden
->
-  <div class="artwork-lightbox-panel">
-    <button class="artwork-lightbox-close" type="button" data-artwork-close aria-label="Close artwork">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z" />
-      </svg>
-    </button>
-    <img data-artwork-lightbox-image src="" alt="" />
-    <p id="artwork-lightbox-title" data-artwork-lightbox-title></p>
-  </div>
-</div>
+---
+import type { Track } from '@/data/album';
 
-<script is:inline>
-  (function () {
-    function setupArtworkLightbox() {
-      var lightbox = document.querySelector('[data-artwork-lightbox]');
-      if (!lightbox) return;
+type Props = {
+  albumTitle: string;
+  albumCover: string;
+  tracks: Track[];
+};
 
-      var image = lightbox.querySelector('[data-artwork-lightbox-image]');
-      var title = lightbox.querySelector('[data-artwork-lightbox-title]');
-      var closeButton = lightbox.querySelector('[data-artwork-close]');
-      var closeTimer = 0;
-      var previousFocus = null;
-      var schedule = window.requestAnimationFrame || function (callback) { return window.setTimeout(callback, 0); };
+const { albumTitle, albumCover, tracks } = Astro.props;
+const artworks = [
+  { id: 'artwork-album', title: `${albumTitle} album cover`, image: albumCover },
+  ...tracks.map((track) => ({
+    id: `artwork-track-${track.number}`,
+    title: `${track.title} cover`,
+    image: track.coverImage
+  }))
+];
+---
 
-      function finishClose() {
-        window.clearTimeout(closeTimer);
-        lightbox.classList.remove('is-open');
-        lightbox.classList.remove('is-closing');
-        lightbox.setAttribute('hidden', '');
-        lightbox.setAttribute('aria-hidden', 'true');
-        document.documentElement.classList.remove('has-artwork-lightbox');
-        if (previousFocus && previousFocus.focus) previousFocus.focus();
-      }
-
-      function closeLightbox() {
-        if (lightbox.hasAttribute('hidden') || lightbox.classList.contains('is-closing')) return;
-
-        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduceMotion) {
-          finishClose();
-          return;
-        }
-
-        lightbox.classList.remove('is-open');
-        lightbox.classList.add('is-closing');
-        closeTimer = window.setTimeout(finishClose, 220);
-      }
-
-      function openLightbox(trigger) {
-        var triggerImage = trigger.querySelector('img');
-        if (!triggerImage || !image) return;
-
-        var artworkTitle = trigger.getAttribute('data-artwork-title') || triggerImage.alt || 'Album artwork';
-        image.src = triggerImage.currentSrc || triggerImage.src;
-        image.alt = artworkTitle;
-        if (title) title.textContent = artworkTitle;
-
-        previousFocus = trigger;
-        lightbox.classList.remove('is-closing');
-        lightbox.removeAttribute('hidden');
-        lightbox.setAttribute('aria-hidden', 'false');
-        document.documentElement.classList.add('has-artwork-lightbox');
-        schedule(function () {
-          lightbox.classList.add('is-open');
-          if (closeButton && closeButton.focus) closeButton.focus();
-        });
-      }
-
-      var triggers = document.querySelectorAll('[data-artwork-open]');
-      for (var index = 0; index < triggers.length; index += 1) {
-        (function (trigger) {
-          trigger.addEventListener('click', function (event) {
-            event.stopPropagation();
-            openLightbox(trigger);
-          });
-        })(triggers[index]);
-      }
-
-      if (closeButton) closeButton.addEventListener('click', closeLightbox);
-
-      lightbox.addEventListener('click', function (event) {
-        if (event.target === lightbox) closeLightbox();
-      });
-
-      document.addEventListener('keydown', function (event) {
-        if (lightbox.hasAttribute('hidden')) return;
-        if (event.key === 'Escape') closeLightbox();
-        if (event.key === 'Tab' && closeButton) {
-          event.preventDefault();
-          closeButton.focus();
-        }
-      });
-    }
-
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupArtworkLightbox);
-    else setupArtworkLightbox();
-  })();
-</script>
+{
+  artworks.map((artwork) => (
+    <div
+      class="artwork-lightbox"
+      id={artwork.id}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`${artwork.id}-title`}
+    >
+      <div class="artwork-lightbox-panel">
+        <a class="artwork-lightbox-close" href="#music" aria-label="Close artwork">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z" />
+          </svg>
+        </a>
+        <img src={artwork.image} alt={artwork.title} />
+        <p id={`${artwork.id}-title`}>{artwork.title}</p>
+      </div>
+    </div>
+  ))
+}
