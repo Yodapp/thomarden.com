@@ -77,7 +77,7 @@ The Worker name in `wrangler.jsonc` is `thomardencom`, matching the Worker name 
 
 ### Cache policy
 
-`public/_headers` ensures HTML pages are never stored in a browser or CDN cache. This prevents an older page from referencing a newer, versioned CSS or JavaScript filename after a deployment. Versioned assets in `/_astro/` retain their normal cache behavior.
+`public/_headers` ensures HTML pages are never stored in a browser cache. In addition, Astro inlines the site stylesheet into every page so an older or interrupted CSS asset request cannot leave Safari with an unstyled document after a deployment.
 
 ## Dependency note
 
