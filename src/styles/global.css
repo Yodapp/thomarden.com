@@ -801,6 +801,66 @@ button {
   flex: 1;
 }
 
+.player-modes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.player-mode-button {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(245, 239, 230, 0.16);
+  border-radius: 999px;
+  background: rgba(245, 239, 230, 0.05);
+  color: var(--muted);
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.player-mode-button:hover,
+.player-mode-button:focus-visible,
+.player-mode-button.is-active,
+.player-mode-button[data-repeat-mode='all'],
+.player-mode-button[data-repeat-mode='one'] {
+  border-color: rgba(208, 165, 122, 0.68);
+  background: rgba(208, 165, 122, 0.16);
+  color: var(--cream);
+}
+
+.player-mode-button svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.player-mode-button .repeat-icon-one,
+.player-mode-button[data-repeat-mode='one'] .repeat-icon-all {
+  display: none;
+}
+
+.player-mode-button[data-repeat-mode='one'] .repeat-icon-one {
+  display: block;
+}
+
+.repeat-icon text {
+  fill: currentColor;
+  stroke: none;
+  font-family: sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+}
+
 .player-title {
   margin: 0;
   overflow: hidden;

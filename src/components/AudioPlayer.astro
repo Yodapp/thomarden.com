@@ -51,6 +51,18 @@ const playableTracks = tracks.map((track) => ({
     </button>
   </div>
 
+  <div class="player-modes" aria-label="Playback modes">
+    <button class="player-mode-button" type="button" data-shuffle aria-label="Turn shuffle on" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3.2c2.4 0 3.7 1.2 5.2 4s2.8 4 5.2 4H20m-3-3 3 3-3 3M4 17h3.2c1.3 0 2.3-.4 3.1-1.2M17 6l3 3-3 3M14.1 8.2c.8-.8 1.8-1.2 3.1-1.2H20" /></svg>
+      <span>Shuffle</span>
+    </button>
+    <button class="player-mode-button" type="button" data-repeat data-repeat-mode="off" aria-label="Repeat is off. Activate repeat all">
+      <svg class="repeat-icon repeat-icon-all" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h11a4 4 0 0 1 4 4v1m-3-3 3 3-3 3M20 17H9a4 4 0 0 1-4-4v-1m3 3-3-3 3-3" /></svg>
+      <svg class="repeat-icon repeat-icon-one" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h11a4 4 0 0 1 4 4v1m-3-3 3 3-3 3M20 17H9a4 4 0 0 1-4-4v-1m3 3-3-3 3-3" /><text x="12" y="15.3">1</text></svg>
+      <span data-repeat-label>Repeat off</span>
+    </button>
+  </div>
+
   <div class="player-visualizer" aria-hidden="true">
     {
       [42, 68, 86, 58, 94, 72, 48, 82, 100, 64, 88, 54, 76, 96, 62, 84, 46, 70].map(
@@ -92,9 +104,15 @@ const playableTracks = tracks.map((track) => ({
     const duration = player.querySelector('[data-duration]');
     const artwork = player.querySelector('[data-artwork]');
     const artworkTrigger = player.querySelector('[data-artwork-link]');
+    const shuffleButton = player.querySelector('[data-shuffle]');
+    const repeatButton = player.querySelector('[data-repeat]');
+    const repeatLabel = player.querySelector('[data-repeat-label]');
     const fallbackArtwork = player.getAttribute('data-fallback-artwork') || '';
     const trackButtons = document.querySelectorAll('[data-track-play]');
     let selected = tracks[0];
+    let shuffleEnabled = false;
+    let repeatMode = 'off';
+    let shuffleQueue = [];
 
     const setPlayControlState = (button, isPlaying, track) => {
       button.classList.toggle('is-playing', isPlaying);
@@ -121,6 +139,36 @@ const playableTracks = tracks.map((track) => ({
       setPlayControlState(playButton, !audio.paused, selected);
     };
 
+    const shuffle = (items) => {
+      const shuffled = [...items];
+      for (let index = shuffled.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+      }
+      return shuffled;
+    };
+
+    const resetShuffleQueue = () => {
+      shuffleQueue = shuffle(tracks.filter((track) => track.audioUrl && track.number !== selected?.number));
+    };
+
+    const updateModeControls = () => {
+      shuffleButton.classList.toggle('is-active', shuffleEnabled);
+      shuffleButton.setAttribute('aria-pressed', String(shuffleEnabled));
+      shuffleButton.setAttribute('aria-label', shuffleEnabled ? 'Turn shuffle off' : 'Turn shuffle on');
+
+      repeatButton.dataset.repeatMode = repeatMode;
+      repeatLabel.textContent = repeatMode === 'all' ? 'Repeat all' : repeatMode === 'one' ? 'Repeat one' : 'Repeat off';
+      repeatButton.setAttribute(
+        'aria-label',
+        repeatMode === 'off'
+          ? 'Repeat is off. Activate repeat all'
+          : repeatMode === 'all'
+            ? 'Repeat all is on. Activate repeat one'
+            : 'Repeat one is on. Turn repeat off'
+      );
+    };
+
     const updateArtwork = (track) => {
       if (!artwork) return;
       const imageUrl = track.coverImage || fallbackArtwork;
@@ -137,8 +185,9 @@ const playableTracks = tracks.map((track) => ({
       player.style.setProperty('--track-artwork', `url('${imageUrl}')`);
     };
 
-    const loadTrack = (track) => {
+    const loadTrack = (track, { resetShuffle = true } = {}) => {
       selected = track;
+      if (shuffleEnabled && resetShuffle) resetShuffleQueue();
       title.textContent = track.title;
       updateArtwork(track);
       if (!track.audioUrl) {
@@ -146,6 +195,8 @@ const playableTracks = tracks.map((track) => ({
         audio.load();
         subtitle.textContent = 'Audio unavailable';
         progress.value = 0;
+        current.textContent = '0:00';
+        duration.textContent = '0:00';
         updateTrackState();
         return false;
       }
@@ -153,11 +204,59 @@ const playableTracks = tracks.map((track) => ({
       audio.src = track.audioUrl;
       audio.load();
       subtitle.textContent = `Track ${track.number}`;
+      progress.value = 0;
+      current.textContent = '0:00';
+      duration.textContent = '0:00';
       updateTrackState();
       return true;
     };
 
+    const getNextTrack = () => {
+      if (repeatMode === 'one') return selected;
+
+      if (shuffleEnabled) {
+        if (!shuffleQueue.length && repeatMode === 'all') resetShuffleQueue();
+        return shuffleQueue.shift() || null;
+      }
+
+      const selectedIndex = tracks.findIndex((track) => track.number === selected?.number);
+      const maximumOffset = repeatMode === 'all' ? tracks.length : tracks.length - selectedIndex - 1;
+      for (let offset = 1; offset <= maximumOffset; offset += 1) {
+        const track = tracks[(selectedIndex + offset) % tracks.length];
+        if (track?.audioUrl) return track;
+      }
+      return null;
+    };
+
+    const playNextTrack = async () => {
+      const nextTrack = getNextTrack();
+      if (!nextTrack || !loadTrack(nextTrack, { resetShuffle: false })) {
+        updateTrackState();
+        return;
+      }
+
+      try {
+        await audio.play();
+        updateTrackState();
+      } catch {
+        subtitle.textContent = 'Playback was blocked. Try pressing play again.';
+      }
+    };
+
     loadTrack(selected);
+    updateModeControls();
+
+    shuffleButton.addEventListener('click', () => {
+      shuffleEnabled = !shuffleEnabled;
+      if (shuffleEnabled) resetShuffleQueue();
+      else shuffleQueue = [];
+      updateModeControls();
+    });
+
+    repeatButton.addEventListener('click', () => {
+      repeatMode = repeatMode === 'off' ? 'all' : repeatMode === 'all' ? 'one' : 'off';
+      updateModeControls();
+    });
 
     document.querySelectorAll('[data-track-play]').forEach((button) => {
       button.addEventListener('click', async () => {
@@ -210,7 +309,7 @@ const playableTracks = tracks.map((track) => ({
     });
 
     audio.addEventListener('ended', () => {
-      updateTrackState();
+      playNextTrack();
     });
 
     audio.addEventListener('pause', updateTrackState);
