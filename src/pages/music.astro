@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import AudioPlayer from '@/components/AudioPlayer.astro';
 import ArtworkLightbox from '@/components/ArtworkLightbox.astro';
 import { album } from '@/data/album';
+import { site } from '@/data/site';
 ---
 
 <BaseLayout title="Music" description="Listen to After the Silence by Thom Arden.">
@@ -34,6 +35,9 @@ import { album } from '@/data/album';
         <h2 class="section-title">{album.title}</h2>
         <p class="lead">Each song is a chapter — about finding beauty in what is broken, discovering that home can be a feeling, and choosing to begin again.</p>
         <p class="muted">{album.credits}</p>
+        <a class="button button-primary spotify-cta" href={site.socialLinks[0].href} target="_blank" rel="noopener noreferrer">
+          Listen to Thom Arden on Spotify <span aria-hidden="true">↗</span>
+        </a>
 
         <AudioPlayer tracks={album.tracks} fallbackArtwork={album.coverImage} />
 

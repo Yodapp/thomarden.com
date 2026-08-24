@@ -7,6 +7,7 @@ export const site = {
   tagline: 'Every song tells a story.',
   email: 'contact@thomarden.com',
   socialLinks: [
+    { label: 'Spotify', href: 'https://open.spotify.com/artist/50SeVFZ6wRSQfGX5KnrZdL?si=uBntYdg3TbCWKMR8xKvDKQ' },
     { label: 'YouTube', href: 'https://youtube.com/@thomardenmusic' },
     { label: 'Facebook', href: 'https://www.facebook.com/share/1BYb3TgBZ7/' },
     { label: 'Instagram', href: 'https://www.instagram.com/thomardenmusic' }

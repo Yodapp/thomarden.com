@@ -432,6 +432,11 @@ button {
   color: var(--cream);
 }
 
+.spotify-cta {
+  gap: 12px;
+  margin-top: 24px;
+}
+
 .hero-card,
 .glass-card {
   border: 1px solid var(--line);
